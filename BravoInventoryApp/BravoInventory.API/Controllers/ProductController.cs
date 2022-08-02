@@ -10,13 +10,16 @@ namespace BravoInventory.API.Controllers
     {
         //Service Properties
         private readonly IProductService _productService;
+        private readonly ICategoryService _categoryService;
 
         //Constructor
-        public ProductController(IProductService poductService)
+        public ProductController(IProductService poductService, ICategoryService categoryService)
         {
             _productService = poductService;
+            _categoryService = categoryService;
         }
 
+        //Methods
         [HttpGet]
         [Route("get")]
         public List<Product> Get()
@@ -28,34 +31,88 @@ namespace BravoInventory.API.Controllers
 
         [HttpPost]
         [Route("create")]
-        public async Task<IActionResult> Create([FromBody] Product request)
+        public async Task<IActionResult> Create([FromBody] Model.DTO.ProductDTO request)
         {
-            _productService.Add(request);
-            _productService.SaveChanges();
+            try
+            {
+                if (_productService.ProductExists(request))
+                {
+                    return StatusCode(StatusCodes.Status409Conflict, "A product with this code already exists. The new product could not be created.");
+                }
+                else
+                {
+                    Category category = _categoryService.Get(c => c.Code == request.CategoryCode);
+                    if (category != null)
+                    {
+                        Product product = _productService.SetRequestForAdd(request, category);
+                        _productService.Add(product);
+                        _productService.SaveChanges();
 
-            return StatusCode(StatusCodes.Status200OK, "Product successfully added");
+                        return StatusCode(StatusCodes.Status201Created, "Product created successfully.");
+                    }
+                    else
+                    {
+                        return StatusCode(StatusCodes.Status409Conflict, "The provided category does not exists.");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception((ex.InnerException != null) ? ex.InnerException.Message : ex.Message); ;
+            }
         }
 
         [HttpPut]
         [Route("edit")]
-        public async Task<IActionResult> Edit([FromBody] Product request)
+        public async Task<IActionResult> Edit([FromBody] Model.DTO.ProductDTO request)
         {
-            _productService.Update(request);
-            _productService.SaveChanges();
+            try
+            {
+                if (_productService.ProductExists(request))
+                {
+                    Category category = _categoryService.Get(c => c.Code == request.CategoryCode);
+                    if (category != null)
+                    {
+                        Product product = _productService.SetRequestForUpdate(request, category);
+                        _productService.Update(product);
+                        _productService.SaveChanges();
+                    }
+                    else
+                    {
+                        return StatusCode(StatusCodes.Status409Conflict, "The provided category does not exists.");
+                    }
 
-            return StatusCode(StatusCodes.Status200OK, "Product successfully modified");
+                    return StatusCode(StatusCodes.Status200OK, "Product modified successfully.");
+                }
+                else
+                {
+                    return StatusCode(StatusCodes.Status409Conflict, "The provided product does not exists.");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception((ex.InnerException != null) ? ex.InnerException.Message : ex.Message);
+            };
         }
 
         [HttpDelete]
         [Route("delete/{id:int}")]
         public async Task<IActionResult> Delete(int id)
         {
-            Product category = _productService.Get(c => c.Id == id);
+            Product product = _productService.Get(p => p.Id == id);
 
-            _productService.Delete(category);
-            _productService.SaveChanges();
+            if (product != null)
+            {
+                _productService.Delete(product);
+                _productService.SaveChanges();
 
-            return StatusCode(StatusCodes.Status200OK, "Product successfully deleted");
+                return StatusCode(StatusCodes.Status200OK, "Product successfully deleted");
+            }
+            else
+            {
+                return StatusCode(StatusCodes.Status409Conflict, "The provided product id does not exists.");
+            }
+
         }
     }
 
