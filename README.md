@@ -20,7 +20,7 @@ Esta solución está compuesta por 4 proyectos:
 | Proyecto | Descripción |
 | ------ | ------ |
 | BravoInventory.API | Este es el proyecto default de la solución. Es un proyecto Web API que cuenta con documentación de swagger para la realización de prueba de sus métodos y está listo para ser consumido.|
-| BravoInventory.Data | La finalidad de este proyecto es manejar las migraciones e interacciones con los contextos de bases de datos. Así también, como la comunicación entre el aplicativo y SQL Server. |
+| BravoInventory.Data | La finalidad de este proyecto es manejar la infraestructura, migraciones e interacciones con los contextos de bases de datos. Así también, como la comunicación entre el aplicativo y SQL Server. |
 | BravoInventory.Model | En este proyecto se encuentran almacenados los modelos de datos definidos a nivel de code-first en la solución representando la estructura y relaciones de entidades que conforman el aplicativo. |
 | BravoInventory.Service | Este proyecto sirve como biblioteca de funcionalidades core del aplicativo. Aquí se maneja la lógica correspondiente a cada entidad especificada asegurando la separación y asignación de responsabilidades únicas de cada servicio o clase que requiera el API para llevar a cabo las operaciones de sus métodos. |
 
