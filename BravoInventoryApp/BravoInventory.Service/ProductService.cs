@@ -57,9 +57,9 @@ namespace BravoInventory.Service
             {
                 Product product = Get(p => p.Code == request.Code);
                 product.Code = request.Code;
-                product.Description = request.Description;
-                product.UnitPrice = request.UnitPrice;
-                product.Quantity = request.Quantity;
+                product.Description = request.Description != "" ? request.Description : product.Description;
+                product.UnitPrice = request.UnitPrice > 0 ? request.UnitPrice : product.UnitPrice;
+                product.Quantity = request.Quantity > 0 ? request.Quantity : product.Quantity; ;
                 product.CategoryId = category.Id;
 
                 return product;
