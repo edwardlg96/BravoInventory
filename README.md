@@ -24,7 +24,7 @@ Esta solución está compuesta por 4 proyectos:
 | BravoInventory.Model | En este proyecto se encuentran almacenados los modelos de datos definidos a nivel de code-first en la solución representando la estructura y relaciones de entidades que conforman el aplicativo. |
 | BravoInventory.Service | Este proyecto sirve como biblioteca de funcionalidades core del aplicativo. Aquí se maneja la lógica correspondiente a cada entidad especificada asegurando la separación y asignación de responsabilidades únicas de cada servicio o clase que requiera el API para llevar a cabo las operaciones de sus métodos. |
 
-## Setup del proyecto
+## Setup del aplicativo
 Al descargar o clonar esta solución y abrir Visual Studio, debe proceder a asignar el proyecto BravoInventory.API como default.
 
 Una vez definido el proyecto default, se debe configurar el connection string definido en el archivo del proyecto BravoInventory.API, appsettings.json. En la coleccón de ConnectionStrings podrá visualizar la conexión de nombre "InventoryDb". En esta conexión deberá definir sus credenciales de instancia de SQL Server (Conservar nombre de la base de datos BravoInventory). Ejemplo:
