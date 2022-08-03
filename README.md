@@ -44,6 +44,9 @@ Para realizar la migración, primero debe seleccionar en el dropdown "Default pr
 ```sh
 Update-Database -StartupProject BravoInventory.API -Context InventoryDbContext
 ```
+
+![image](https://user-images.githubusercontent.com/17075196/182542686-0c86fae6-48bd-4746-bb83-e97a9019c37e.png)
+
 Si este comando resulta en alguna excepción, verifique su connection string y repita la secuencia.
 
 Una vez se haya ejecutado la secuencia mencionada, debe dirigirse a su aplicación de SQL Server y actualizar su carpeta Database para verificar que se haya integrado la base de datos BravoInventory. Esto quiere decir que la migración de la base de datos ha sido exitosa y que usted puede comenzar a probar el aplicativo.
